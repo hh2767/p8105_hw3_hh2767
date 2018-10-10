@@ -1,0 +1,20 @@
+---
+title: "p8105_hw3_hh2767"
+author: "Haoran Hu, hh2767"
+date: "2018-10-09"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(p8105.datasets)
+```
+
+```{r}
+brfss_smart2010 = janitor::clean_names(brfss_smart2010)
+colnames(brfss_smart2010)[2] = "location_abbr"
+colnames(brfss_smart2010)[3] = "location_desc"
+brfss_smart2010 = filter(brfss_smart2010, topic == "Overall Health") 
+```
+
