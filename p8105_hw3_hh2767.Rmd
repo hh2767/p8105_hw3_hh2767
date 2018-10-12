@@ -15,6 +15,10 @@ library(p8105.datasets)
 brfss_smart2010 = janitor::clean_names(brfss_smart2010)
 colnames(brfss_smart2010)[2] = "location_abbr"
 colnames(brfss_smart2010)[3] = "location_desc"
-brfss_smart2010 = filter(brfss_smart2010, topic == "Overall Health") 
+brfss_smart2010 %>% 
+  filter(topic == "Overall Health") %>% 
+  mutate(response = factor(response, levels = c("Excellent", "Very good", "Good", "Fair", "Poor")))
+
+
 ```
 
