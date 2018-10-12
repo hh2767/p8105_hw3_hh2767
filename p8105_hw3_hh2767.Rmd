@@ -8,14 +8,17 @@ output: github_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
-#knitr::opts_chunk$set(
-#  fig.width = 6,
-#  fig.asp = .6,
-#  out.width = "90%"
-#)
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
 
-#theme_set(theme_bw() + theme(legend.position = "bottom"))
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+
 library(p8105.datasets)
+library(patchwork)
+library(ggridges)
 ```
 
 #Problem 1
@@ -78,14 +81,12 @@ The table is created as the requeste of the question. According to the table, we
 ###question 4
 
 ```{r fig.width=14, fig.height=12}
-
-
 theme_set(theme_bw())
 brfss %>% 
   group_by(year, location_abbr, response) %>% 
   summarize(mean_prop = mean(data_value, na.rm = TRUE), sample_size = sum(sample_size)) %>% 
   ggplot(aes(x = year, y = mean_prop, color = location_abbr)) + geom_point(aes(size = sample_size), alpha = .5) + geom_smooth(se = FALSE) + labs(title = "proportion of each response in each state") + 
-  facet_grid(. ~ response) +  viridis::scale_color_viridis(
+  facet_grid(~ response) +  viridis::scale_color_viridis(
     name = "Location", 
     discrete = TRUE
   )
@@ -95,7 +96,7 @@ The figure above is created as request of the question.The figure shows that the
 
 #Problem 2
 
-###question1
+###question 1
 
 ```{r}
  count = instacart %>% 
@@ -103,4 +104,21 @@ The figure above is created as request of the question.The figure shows that the
    arrange(-n)
 ```
 
-There are `r nrow(count)` aisles, and `r count[1,1]` is ordered for the most times.
+There are `r nrow(count)` aisles, and "`r count[1,1]`" is ordered for the most times.
+
+###question 2
+
+```{r fig.width=15, fig.height=500, fig.align='center'}
+count$aisle = factor(count$aisle, levels = count$aisle)
+order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+
+order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+
+ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+
+(order_over10k + order_3k_10K) / ordre_less3k
+
+
+
+```
+
