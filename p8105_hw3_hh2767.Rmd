@@ -99,13 +99,8 @@ The figure above is created as request of the question.The figure shows that the
 
 ```{r}
  count = instacart %>% 
-  count(aisle) 
-  
-  nrow(count)
-
-count %>% 
-   arrange(n)
-count[nrow(count),]
-
+  count(aisle) %>% 
+   arrange(-n)
 ```
 
+There are `r nrow(count)` aisles, and `r count[1,1]` is ordered for the most times.
