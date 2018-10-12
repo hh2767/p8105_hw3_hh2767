@@ -77,12 +77,8 @@ The table is created as the requeste of the question. According to the table, we
 
 ###question 4
 
-```{r}
-  knitr::opts_chunk$set(
-  fig.width = 10,
-  fig.asp = 10,
-  out.width = "90%"
-)
+```{r fig.width=14, fig.height=12}
+
 
 theme_set(theme_bw())
 brfss %>% 
@@ -98,3 +94,18 @@ brfss %>%
 The figure above is created as request of the question.The figure shows that the majority of people in each state responded "Excellent", "Very good", or "Good". What is interesting is that in each state, the proportion of each response is largely the same. In addition, the proportion of each response remains stable over the years.
 
 #Problem 2
+
+###question1
+
+```{r}
+ count = instacart %>% 
+  count(aisle) 
+  
+  nrow(count)
+
+count %>% 
+   arrange(n)
+count[nrow(count),]
+
+```
+
