@@ -141,3 +141,5 @@ instacart %>%
   select(aisle, `most popular item` = product_name, `number of ordered items` = num_items_ordered) %>% 
   knitr::kable()
 ```
+
+The table above shows that the most popular item of baking ingredients is Light Brown Sugar, of which 499 items are ordered.The most popular item of dog food care is Snack Sticks Chicken & Rice Recipe Dog Treats, of which 30 items are ordered. The most popular item of packaged vegetables fruits is Organic Baby Spinach, of which 9784 items are ordered.
