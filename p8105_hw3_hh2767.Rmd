@@ -108,17 +108,30 @@ There are `r nrow(count)` aisles, and "`r count[1,1]`" is ordered for the most t
 
 ###question 2
 
-```{r fig.width=15, fig.height=500, fig.align='center'}
+First, in order to arrange the aisles according to the frequency that they are ordered when making the graph, I need to first turn the aisles in to ordered factor variables.
+```{r}
 count$aisle = factor(count$aisle, levels = count$aisle)
-order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+```
 
-order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+Then, I can begin to make the graph.
 
-ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) 
+```{r fig.width=17, fig.height=500, fig.align='center'}
+order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + scale_y_continuous( limits = c(0, 160000)) + labs(title = "Ordered more than 10000 times", y = "number of orders") 
+
+order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Ordered 3000 to 10000 times", y = "number of orders")
+
+ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Ordered less than 3000 times", y = "number of orders")
 
 (order_over10k + order_3k_10K) / ordre_less3k
 
-
-
 ```
 
+As the plot shows, the aisles are devided into three groups: orderd for more than 10000 times, oedered 3000 to 10000 times, and ordered less than 3000 times. For each of the group, a graph is made with the aisles arranged according to the frequency that they are ordered.
+
+###question 3
+
+```{r}
+a = instacart %>% 
+ filter(aisle == "baking ingredients" | aisle == "dog food care" | aisle == "packaged vegetables fruits")
+
+```
