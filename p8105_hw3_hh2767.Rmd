@@ -183,8 +183,8 @@ ny_noaa = ny_noaa %>%
   rename(prcp_mm = prcp, 
          snow_mm = snow, 
          snwd_mm = snwd, 
-         tmax_C = tmax, 
-         tmin_C = tmin)
+         tmax_c = tmax, 
+         tmin_c = tmin)
 
   head(ny_noaa)
 
@@ -201,3 +201,16 @@ ny_noaa %>%
 
 
 ###question 2
+
+```{r fig.width=10, fig.height=20}
+  ny_noaa %>% 
+  filter(month %in% c("01", "07")) %>% 
+  filter(!is.na(tmax_c)) %>% 
+  group_by(id, year, month) %>% 
+  summarize(mean_tmax = mean(tmax_c)) %>% 
+  ggplot(aes(x = year, y = mean_tmax, color = id)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE) + 
+  facet_grid(.~month)
+```
+
