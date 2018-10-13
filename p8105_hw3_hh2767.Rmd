@@ -116,26 +116,62 @@ count$aisle = factor(count$aisle, levels = count$aisle)
 Then, I can begin to make the graph.
 
 ```{r fig.width=17, fig.height=500, fig.align='center'}
-order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, fill = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + scale_y_continuous( limits = c(0, 160000)) + labs(title = "More than 10000 items ordered", y = "number of orders") +   viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
+order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, fill = aisle)) + 
+  geom_col() +  
+  theme(legend.position = "bottom") + 
+  scale_x_discrete(breaks = NULL) + 
+  scale_y_continuous( limits = c(0, 160000)) + 
+  labs(title = "More than 10000 items ordered", y = "number of orders") + 
+  viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
 
-order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, fill = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "3000 to 10000 items ordered", y = "number of orders") +  viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
+order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, fill = aisle)) + 
+  geom_col() +  
+  theme(legend.position = "bottom") + 
+  scale_x_discrete(breaks = NULL) + 
+  labs(title = "3000 to 10000 items ordered", y = "number of orders") + 
+  viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
 
-ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, fill = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Less than 3000 items ordered", y = "number of orders") + viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
+ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, fill = aisle)) + 
+  geom_col() +  
+  theme(legend.position = "bottom") + 
+  scale_x_discrete(breaks = NULL) + 
+  labs(title = "Less than 3000 items ordered", y = "number of orders") +
+  viridis::scale_fill_viridis(option = "virids", discrete = TRUE)
 
 (order_over10k + order_3k_10K) / ordre_less3k
 
 ```
 
+We can also make the graph in the following way.
 
-```{r}
+```{r fig.width = 10, fig.asp = .8}
 ggplot(filter(count, n >= 10000), aes(x = aisle, y = n)) + 
   geom_col(fill = "lightcoral", color = "navy") +  
   theme(legend.position = "bottom") + 
   scale_y_continuous( limits = c(0, 160000)) + 
   labs(title = "More than 10000 items ordered", y = "number of orders") +
-  coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 4))  + 
+  coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 8))  + 
   geom_text(aes(label = n, y = n + 9000), nudge_x = 0,
 nudge_y = 0, size = 2) 
+
+ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n)) + 
+  geom_col(fill = "lightcoral", color = "navy") +  
+  theme(legend.position = "bottom") + 
+  labs(title = "3000 to 10000 items ordered", y = "number of orders") +
+  coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 8))  + 
+  geom_text(aes(label = n, y = n + 800), nudge_x = 0,
+nudge_y = 0, size = 2) 
+
+```
+
+```{r fig.width = 10, fig.asp = .8}
+ggplot(filter(count, n < 3000), aes(x = aisle, y = n)) + 
+  geom_col(fill = "lightcoral", color = "navy") +  
+  theme(legend.position = "bottom") + 
+  labs(title = "Less than 3000 items ordered", y = "number of orders") +
+  coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 8))  + 
+  geom_text(aes(label = n, y = n + 150), nudge_x = 0,
+nudge_y = 0, size = 2)
 
 ```
 
@@ -237,7 +273,7 @@ In the picture above, mean max temperature of each month observed at different s
 
 ###question 3
 
-```{r fig.width = 15, fig.asp = .9}
+```{r fig.width = 10, fig.asp = .8}
 temp_plot = ny_noaa %>% 
   filter(!is.na(tmax_c) & !is.na(tmin_c)) %>% 
   ggplot(aes(x = tmax_c, y = tmin_c)) + geom_hex() + labs(title = "Max temperature VS Min temperature", x = "maximum  tempeture (°C)", y = "Minimum tempeture (°C)") 
@@ -250,6 +286,11 @@ snow_plot = ny_noaa %>%
     geom_boxplot() + theme(legend.position = "null") + viridis::scale_fill_viridis(option = "virids", discrete = TRUE) + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5, angle = 60))
 
 temp_plot / snow_plot
+```
+
+The graph is a two-panel plot as requested.
+
+```{r fig.width = 15, fig.asp = .9}
 
 snow_data = ny_noaa %>% 
   select(-prcp_mm, -snwd_mm, -tmax_c, -tmin_c) %>% 
