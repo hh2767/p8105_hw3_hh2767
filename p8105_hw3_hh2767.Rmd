@@ -116,15 +116,21 @@ count$aisle = factor(count$aisle, levels = count$aisle)
 Then, I can begin to make the graph.
 
 ```{r fig.width=17, fig.height=500, fig.align='center'}
-order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + scale_y_continuous( limits = c(0, 160000)) + labs(title = "Ordered more than 10000 times", y = "number of orders") 
+order_over10k = ggplot(filter(count, n >= 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + scale_y_continuous( limits = c(0, 160000)) + labs(title = "More than 10000 items ordered", y = "number of orders") 
 
-order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Ordered 3000 to 10000 times", y = "number of orders")
+order_3k_10K = ggplot(filter(count, n >= 3000 & n < 10000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "3000 to 10000 items ordered", y = "number of orders")
 
-ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Ordered less than 3000 times", y = "number of orders")
+ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, color = aisle)) + geom_col() +  theme(legend.position = "bottom") + scale_x_discrete(breaks = NULL) + labs(title = "Less than 3000 items ordered", y = "number of orders")
 
 (order_over10k + order_3k_10K) / ordre_less3k
 
 ```
+
+
+```{r}
+ggplot(filter(count, n >= 10000), aes(x = aisle, y = n)) + geom_col(fill = "red", color = "blue") +  theme(legend.position = "bottom") + scale_y_continuous( limits = c(0, 160000)) + labs(title = "More than 10000 items ordered", y = "number of orders") + coord_flip()
+```
+
 
 As the plot shows, the aisles are devided into three groups: orderd for more than 10000 times, oedered 3000 to 10000 times, and ordered less than 3000 times. For each of the group, a graph is made with the aisles arranged according to the frequency that they are ordered.
 
@@ -143,3 +149,22 @@ instacart %>%
 ```
 
 The table above shows that the most popular item of baking ingredients is Light Brown Sugar, of which 499 items are ordered.The most popular item of dog food care is Snack Sticks Chicken & Rice Recipe Dog Treats, of which 30 items are ordered. The most popular item of packaged vegetables fruits is Organic Baby Spinach, of which 9784 items are ordered.
+
+###question 4
+
+Suppose that in the instacart data, the "order_dow" variable indicates on which week day the items were ordered, and its value 0, 1, ..., 6 denotes sunday, monday, ..., sataurday, respectively.
+
+```{r}
+instacart = instacart
+
+  instacart %>% 
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
+  group_by(product_name, order_dow) %>% 
+  summarize(mean_order_hour = mean(order_hour_of_day)) %>% 
+  spread(key = product_name, value = mean_order_hour) %>% 
+  rename(weekday = order_dow) %>% 
+  mutate(weekday = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sataurday")) %>% 
+    knitr::kable(align = 'c', caption = "mean hour of the orders")
+  
+```
+
