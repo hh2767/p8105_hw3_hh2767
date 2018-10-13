@@ -238,9 +238,18 @@ In the picture above, mean max temperature of each month observed at different s
 ###question 3
 
 ```{r fig.width = 15, fig.asp = .9}
-ny_noaa %>% 
+temp_plot = ny_noaa %>% 
   filter(!is.na(tmax_c) & !is.na(tmin_c)) %>% 
   ggplot(aes(x = tmax_c, y = tmin_c)) + geom_hex() + labs(title = "Max temperature VS Min temperature", x = "maximum  tempeture (°C)", y = "Minimum tempeture (°C)") 
+
+snow_plot = ny_noaa %>% 
+  select(-prcp_mm, -snwd_mm, -tmax_c, -tmin_c) %>% 
+  filter(!is.na(snow_mm)) %>% 
+  filter(snow_mm > 0 & snow_mm < 100) %>% 
+  ggplot( aes(x = year, y = snow_mm, fill = year)) +
+    geom_boxplot() + theme(legend.position = "null") + viridis::scale_fill_viridis(option = "virids", discrete = TRUE) + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5, angle = 60))
+
+temp_plot / snow_plot
 
 snow_data = ny_noaa %>% 
   select(-prcp_mm, -snwd_mm, -tmax_c, -tmin_c) %>% 
