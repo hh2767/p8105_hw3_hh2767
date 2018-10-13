@@ -128,7 +128,9 @@ ordre_less3k = ggplot(filter(count, n < 3000), aes(x = aisle, y = n, fill = aisl
 
 
 ```{r}
-ggplot(filter(count, n >= 10000), aes(x = aisle, y = n)) + geom_col(fill = "lightcoral", color = "navy") +  theme(legend.position = "bottom") + scale_y_continuous( limits = c(0, 160000)) + labs(title = "More than 10000 items ordered", y = "number of orders") + coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5))
+ggplot(filter(count, n >= 10000), aes(x = aisle, y = n)) + geom_col(fill = "lightcoral", color = "navy") +  theme(legend.position = "bottom") + scale_y_continuous( limits = c(0, 160000)) + labs(title = "More than 10000 items ordered", y = "number of orders") + coord_flip() + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5))  + geom_text(aes(label = n, y = n + 9000), nudge_x = 0,
+nudge_y = 0, size = 2) 
+
 ```
 
 
@@ -198,7 +200,7 @@ ny_noaa %>%
   arrange(-n) %>% 
   head()
 ```
-
+observations for temperature, precipitation, and snowfall 
 
 ###question 2
 
@@ -228,3 +230,10 @@ The plot above is a two-panel plot. The left one shows the distribution of mean 
 In the picture above, mean max temperature of each month observed at different stations are marked with different colors. From the plot, we can see that outliers in different years are from different stations. This means that there is not an area where the max temperature is always abnormal in July or in January.
 
 ###question 3
+
+```{r}
+ny_noaa %>% 
+  filter(!is.na(tmax_c) & !is.na(tmin_c)) %>% 
+  ggplot(aes(x = tmax_c, y = tmin_c)) + geom_hex() + labs(title = "Max temperature VS Min temperature", x = "maximum  tempeture (°C)", y = "Minimum tempeture (°C)")
+```
+
