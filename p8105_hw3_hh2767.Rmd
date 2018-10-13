@@ -171,6 +171,8 @@ instacart = instacart
 
 #problem 3
 
+###question 1
+
 ```{r}
 ny_noaa = ny_noaa %>% 
   separate(date, into = c("year", "month", "day"), sep = "-") %>%
@@ -182,16 +184,20 @@ ny_noaa = ny_noaa %>%
          snow_mm = snow, 
          snwd_mm = snwd, 
          tmax_C = tmax, 
-         tmin_C = tmin) %>% 
-  head()
+         tmin_C = tmin)
 
+  head(ny_noaa)
+
+```
+
+```{r}
 
 ny_noaa %>% 
   filter(!is.na(snow_mm)) %>% 
   count(snow_mm) %>% 
   arrange(-n) %>% 
   head()
-
 ```
 
-datNormed <- apply(dat,  function(x) x / x[1])
+
+###question 2
