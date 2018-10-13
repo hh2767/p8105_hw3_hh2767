@@ -212,4 +212,19 @@ ny_noaa %>%
   geom_boxplot(fill = "brown1")  + 
   facet_grid(.~month) + theme(legend.position = "botomn") + theme(axis.text.x = element_text(face = "plain", color = "black", size = 6.5, angle = 60))
 ```
-The plot above is a two-panel plot. The left one shows the distribution of mean max temperature of January observed at each station, while the right one shows the distribution of mean max temperature of July observed at each station. The result
+The plot above is a two-panel plot. The left one shows the distribution of mean max temperature of January observed at each station, while the right one shows the distribution of mean max temperature of July observed at each station. The result shows that the mean of tempature is much lower in January than in July, and variance of the mean in January is greater than that in July. In addition, the tempuratures remain relatively stable over the years. There are some outliers almost each year, so I made another plot to find out wether those outlying data are observed from the same station or not.
+
+```{r}
+  ny_noaa %>% 
+  filter(month %in% c("01", "07")) %>% 
+  filter(!is.na(tmax_c)) %>% 
+  group_by(id, year, month) %>% 
+  summarize(mean_tmax = mean(tmax_c)) %>% 
+  ggplot(aes(x = year, y = mean_tmax, color = id)) +
+  geom_point()  + 
+  facet_grid(.~month) + theme(legend.position = "botomn") + theme(axis.text.x = element_text(face = "plain", color = "black", size = 6.5, angle = 60)) + viridis::scale_color_viridis(option = "magma", discrete = TRUE)
+```
+
+In the picture above, mean max temperature of each month observed at different stations are marked with different colors. From the plot, we can see that outliers in different years are from different stations. This means that there is not an area where the max temperature is always abnormal in July or in January.
+
+###question 3
