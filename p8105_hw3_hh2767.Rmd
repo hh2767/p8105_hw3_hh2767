@@ -31,7 +31,9 @@ colnames(brfss)[2] = "location_abbr"
 colnames(brfss)[3] = "location_desc"
 brfss = filter(brfss, topic == "Overall Health") %>% 
    mutate(response = factor(response, levels = c("Excellent", "Very good", "Good", "Fair", "Poor"))) %>%
-  arrange(response)
+  arrange(response) 
+
+  head(brfss)
 ```
 
 ##Answering questions
