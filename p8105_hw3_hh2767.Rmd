@@ -204,7 +204,7 @@ Suppose that in the instacart data, the "order_dow" variable indicates on which 
 ```{r}
 instacart = instacart
 
- a = instacart %>% 
+ instacart %>% 
   filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
   group_by(product_name, order_dow) %>% 
   summarize(mean_order_hour = round(mean(order_hour_of_day),2)) %>% 
@@ -219,13 +219,13 @@ instacart = instacart
   
 ```
 
-This table shows mean hour of the orders in each weekday.
+This table shows mean hour of the orders in each weekday. From the table, we can see that coffee ice cream is generally ordered later in the day than pink lady apple.
 
 #problem 3
 
 ###description of the dataset
-The 
-
+The "ny_noaa" dataset is a `r nrow(ny_noaa)`(rows) , `r ncol(ny_noaa)`(columns) dataset. Each row shows the record observed by a station on a certain day, and each column indicates one characteristic of the data, such as precipitation, snowfall, maximun temperature, minimum temperature, etc. For "precipitation", "snow fall", "snowwidth", "maximum temperature", and "minimum tempereture", the proportion of missing data is `r (nrow(filter(ny_noaa, is.na(prcp)))/ nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(snow))) / nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(snwd))) / nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(tmax))) / nrow(ny_noaa))`, and  `r (nrow(filter(ny_noaa, is.na(tmin))) / nrow(ny_noaa))` respectively.
+There are still large amount of data, and we can still do the analysis with the avalable data.
 ###question 1
 
 ```{r}
@@ -250,7 +250,6 @@ ny_noaa$month = plyr::mapvalues(ny_noaa$month,
 ny_noaa %>% 
 mutate(month = factor(month, levels = c("January","Feburary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) 
 
-  head(ny_noaa)
 
 ```
 
