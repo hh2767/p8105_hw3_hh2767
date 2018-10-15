@@ -95,6 +95,8 @@ brfss %>%
 The figure above is created as request of the question.The figure shows that the majority of people in each state responded "Excellent", "Very good", or "Good". What is interesting is that in each state, the proportion of each response is largely the same. In addition, the proportion of each response remains stable over the years.
 
 #Problem 2
+###Description of the dataset
+The "instacart" dataset is a `r nrow(instacart)`(rows) * `r ncol(instacart)`(columns) dataset. Each row of the data indicates the following informations: the id of the order, which kind of and how many of the products is ordered, whether the product is reordered by the customer or not, when is the order, what department dose the produce belong to, etc. Each column variable indicates one of the characteristics of the orders. For example, the first row is a record showing the following information: the order id is "1", and is ordered by the user whose id is "112108"
 
 ###question 1
 
@@ -215,8 +217,12 @@ instacart = instacart
   
 ```
 
+This table shows mean hour of the orders in each weekday.
 
 #problem 3
+
+###description of the dataset
+The 
 
 ###question 1
 
