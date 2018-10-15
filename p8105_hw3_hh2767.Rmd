@@ -201,13 +201,16 @@ Suppose that in the instacart data, the "order_dow" variable indicates on which 
 ```{r}
 instacart = instacart
 
-  instacart %>% 
+ instacart %>% 
   filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
   group_by(product_name, order_dow) %>% 
-  summarize(mean_order_hour = mean(order_hour_of_day)) %>% 
-  spread(key = product_name, value = mean_order_hour) %>% 
-  rename(weekday = order_dow) %>% 
+  summarize(mean_order_hour = round(mean(order_hour_of_day),2)) %>% 
+    rename(weekday = order_dow) %>% 
   mutate(weekday = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sataurday")) %>% 
+   mutate(hour = floor(mean_order_hour), min = round(60 * (mean_order_hour - floor(mean_order_hour)))) %>% 
+   mutate(`mean hour of the orders` = paste(hour, ":", min)) %>% 
+   select(-mean_order_hour, -hour , -min) %>% 
+  spread(key = weekday, value = `mean hour of the orders`) %>% 
     knitr::kable(align = 'c', caption = "mean hour of the orders")
   
 ```
@@ -237,8 +240,8 @@ ny_noaa$month = plyr::mapvalues(ny_noaa$month,
           to = c("January","Feburary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))
 
 ny_noaa %>% 
-mutate(month = factor(month, levels = c("January","Feburary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) %>% 
-  arrange(month)
+mutate(month = factor(month, levels = c("January","Feburary","March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))) 
+
   head(ny_noaa)
 
 ```
@@ -296,8 +299,8 @@ snow_plot = ny_noaa %>%
   select(-prcp_mm, -snwd_mm, -tmax_c, -tmin_c) %>% 
   filter(!is.na(snow_mm)) %>% 
   filter(snow_mm > 0 & snow_mm < 100) %>% 
-  ggplot( aes(x = year, y = snow_mm, fill = year)) +
-    geom_boxplot() + theme(legend.position = "null") + viridis::scale_fill_viridis(discrete = TRUE) + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5, angle = 60))
+  ggplot( aes(x = year, y = snow_mm)) +
+    geom_boxplot(fill = "blue") + theme(legend.position = "null") + theme(axis.text.x = element_text(face = "plain", color = "black", size = 5, angle = 60))
 
 temp_plot / snow_plot
 ```
