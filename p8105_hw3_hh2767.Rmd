@@ -95,8 +95,9 @@ brfss %>%
 The figure above is created as request of the question.The figure shows that the majority of people in each state responded "Excellent", "Very good", or "Good". What is interesting is that in each state, the proportion of each response is largely the same. In addition, the proportion of each response remains stable over the years.
 
 #Problem 2
+
 ###Description of the dataset
-The "instacart" dataset is a `r nrow(instacart)`(rows) * `r ncol(instacart)`(columns) dataset. Each row of the data indicates the following informations: the id of the order, which kind of and how many of the products is ordered, whether the product is reordered by the customer or not, when is the order, what department dose the produce belong to, etc. Each column variable indicates one of the characteristics of the orders. For example, the first row is a record showing the following information: the order id is "1", and is ordered by the user whose id is "112108"
+The "instacart" dataset is a `r nrow(instacart)`(rows) * `r ncol(instacart)`(columns) dataset. Each row of the data indicates the following informations: the id of the order, which kind of and how many of the products is ordered, whether the product is reordered by the customer or not, when is the order, what department dose the produce belong to, etc. Each column variable indicates one of the characteristics of the orders. For example, the first row is a record showing the following information: the order id is "1", and is ordered by the user whose id is "112108". The ordered product is "Bulgarian Yogurt", which is in "Yogurt" aisle and "dairy eggs" department. They are reordered by the customer, and 4 of them were ordered this time. The order was on thursday 10:00, and it has been 9 days since the product was ordered last time.
 
 ###question 1
 
@@ -178,7 +179,7 @@ nudge_y = 0, size = 2)
 ```
 
 
-As the plot shows, the aisles are devided into three groups: orderd for more than 10000 times, oedered 3000 to 10000 times, and ordered less than 3000 times. For each of the group, a graph is made with the aisles arranged according to the frequency that they are ordered.
+As the plot shows, the aisles are devided into three groups: orderd for more than 10000 times, oedered 3000 to 10000 times, and ordered less than 3000 times. For each of the group, a graph is made with the aisles arranged according to the frequency that they are ordered. As the graph shows, number of items ordered in different aisles varies greatly. For the majotiry of the aisles, several hundreds to several thousands items are ordered. However, in aisles like fresh fruits and fresh vegetables, hundreds of thousands items were ordered.
 
 ###question 3
 
@@ -203,13 +204,14 @@ Suppose that in the instacart data, the "order_dow" variable indicates on which 
 ```{r}
 instacart = instacart
 
- instacart %>% 
+ a = instacart %>% 
   filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) %>% 
   group_by(product_name, order_dow) %>% 
   summarize(mean_order_hour = round(mean(order_hour_of_day),2)) %>% 
     rename(weekday = order_dow) %>% 
   mutate(weekday = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sataurday")) %>% 
-   mutate(hour = floor(mean_order_hour), min = round(60 * (mean_order_hour - floor(mean_order_hour)))) %>% 
+   mutate(weekday = factor(weekday, levels = c("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Sataurday"))) %>% 
+    mutate(hour = floor(mean_order_hour), min = round(60 * (mean_order_hour - floor(mean_order_hour)))) %>% 
    mutate(`mean hour of the orders` = paste(hour, ":", min)) %>% 
    select(-mean_order_hour, -hour , -min) %>% 
   spread(key = weekday, value = `mean hour of the orders`) %>% 
