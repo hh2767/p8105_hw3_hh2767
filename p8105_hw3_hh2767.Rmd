@@ -226,6 +226,7 @@ This table shows mean hour of the orders in each weekday. From the table, we can
 ###description of the dataset
 The "ny_noaa" dataset is a `r nrow(ny_noaa)`(rows) , `r ncol(ny_noaa)`(columns) dataset. Each row shows the record observed by a station on a certain day, and each column indicates one characteristic of the data, such as precipitation, snowfall, maximun temperature, minimum temperature, etc. For "precipitation", "snow fall", "snowwidth", "maximum temperature", and "minimum tempereture", the proportion of missing data is `r (nrow(filter(ny_noaa, is.na(prcp)))/ nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(snow))) / nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(snwd))) / nrow(ny_noaa))`,  `r (nrow(filter(ny_noaa, is.na(tmax))) / nrow(ny_noaa))`, and  `r (nrow(filter(ny_noaa, is.na(tmin))) / nrow(ny_noaa))` respectively.
 There are still large amount of data, and we can still do the analysis with the avalable data.
+
 ###question 1
 
 ```{r}
@@ -261,7 +262,7 @@ ny_noaa %>%
   arrange(-n) %>% 
   head()
 ```
-observations for temperature, precipitation, and snowfall 
+As requested, I did some data cleaning, created separate variables for year, month, and day. Now, the observations for temperature is given in degree Celsius, while precipitation, and snowfall are given in millimeters. For snowfall, the most commonly observed value is 0. That's because in most of the days of a year, there is no snowfall.
 
 ###question 2
 
@@ -275,7 +276,9 @@ observations for temperature, precipitation, and snowfall
   geom_boxplot(fill = "brown1")  + 
   facet_grid(.~month) + theme(legend.position = "bottom") + theme(axis.text.x = element_text(face = "plain", color = "black", size = 6.5, angle = 60))
 ```
+
 The plot above is a two-panel plot. The left one shows the distribution of mean max temperature of January observed at each station, while the right one shows the distribution of mean max temperature of July observed at each station. The result shows that the mean of tempature is much lower in January than in July, and variance of the mean in January is greater than that in July. In addition, the tempuratures remain relatively stable over the years. There are some outliers almost each year, so I made another plot to find out wether those outlying data are observed from the same station or not.
+
 
 ```{r}
   ny_noaa %>% 
@@ -312,7 +315,7 @@ snow_plot = ny_noaa %>%
 temp_plot / snow_plot
 ```
 
-The graph is a two-panel plot as requested.
+The graph is a two-panel plot as requested. If we want to show the smowfall in each month, we can make the following graph.
 
 ```{r fig.width = 15, fig.asp = .9}
 
